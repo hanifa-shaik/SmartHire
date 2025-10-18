@@ -5,48 +5,202 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartHire - Find Your Dream Job</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">🎯 SmartHire</div>
+        <div class="logo">
+            <i class="fas fa-briefcase"></i>
+            <span>SmartHire</span>
+        </div>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="register.html">Register</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><a href="register.html" class="btn-nav-register"><i class="fas fa-user-plus"></i> Register</a></li>
         </ul>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
     </nav>
 
     <section class="hero">
-        <h1>Find Your Dream Job with AI Matching</h1>
-        <p>Upload your resume and get matched with perfect jobs instantly!</p>
-        <div style="margin-top: 2rem;">
-            <a href="register.html" class="btn btn-primary">Get Started Free</a>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i> #1 AI Job Matching Platform
+            </div>
+            <h1 class="hero-title">Find Your Dream Job with <span class="gradient-text">AI Matching</span></h1>
+            <p class="hero-subtitle">Upload your resume and get matched with perfect jobs instantly using our smart algorithm!</p>
+            <div class="hero-buttons">
+                <a href="register.html" class="btn btn-primary btn-large">
+                    <i class="fas fa-rocket"></i> Get Started Free
+                </a>
+                <a href="#features" class="btn btn-secondary btn-large">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="1000">0</div>
+                    <div class="stat-label">Active Jobs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="5000">0</div>
+                    <div class="stat-label">Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="95">0</div>
+                    <div class="stat-label">Match Rate %</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-illustration">
+            <div class="floating-card card-1">
+                <i class="fas fa-code"></i>
+                <span>Python Developer</span>
+            </div>
+            <div class="floating-card card-2">
+                <i class="fas fa-chart-line"></i>
+                <span>Data Analyst</span>
+            </div>
+            <div class="floating-card card-3">
+                <i class="fas fa-laptop-code"></i>
+                <span>Full Stack Dev</span>
+            </div>
         </div>
     </section>
 
-    <div class="container">
+    <div class="container" id="features">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Get matched with your perfect job in 4 simple steps</p>
+        </div>
+        
         <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">📝</div>
+            <div class="feature-card" data-aos="fade-up">
+                <div class="feature-icon-wrapper">
+                    <i class="fas fa-user-plus feature-icon"></i>
+                    <div class="feature-number">1</div>
+                </div>
                 <h3>Create Profile</h3>
-                <p>Sign up and add your skills</p>
+                <p>Sign up and add your skills, education, and experience</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">📄</div>
+            
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon-wrapper">
+                    <i class="fas fa-file-upload feature-icon"></i>
+                    <div class="feature-number">2</div>
+                </div>
                 <h3>Upload Resume</h3>
-                <p>We extract skills automatically</p>
+                <p>We automatically extract skills from your resume using AI</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
+            
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-icon-wrapper">
+                    <i class="fas fa-bullseye feature-icon"></i>
+                    <div class="feature-number">3</div>
+                </div>
                 <h3>Get Matches</h3>
-                <p>See jobs that fit your profile</p>
+                <p>See jobs ranked by how well they match your profile</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">✅</div>
+            
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-icon-wrapper">
+                    <i class="fas fa-paper-plane feature-icon"></i>
+                    <div class="feature-number">4</div>
+                </div>
                 <h3>Apply Easily</h3>
-                <p>One-click job applications</p>
+                <p>One-click applications to your favorite positions</p>
             </div>
         </div>
     </div>
+
+    <section class="benefits-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose SmartHire?</h2>
+                <p>Powerful features to accelerate your job search</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>AI-Powered Matching</h3>
+                    <p>Smart algorithm analyzes your skills and matches you with perfect jobs</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>Real-Time Results</h3>
+                    <p>Instant job recommendations as soon as you upload your resume</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>Match Percentage</h3>
+                    <p>See exactly how well each job fits your profile with visual indicators</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>100% Secure</h3>
+                    <p>Your data is encrypted and protected with industry-standard security</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access your job matches anywhere, anytime on any device</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Career Assistant</h3>
+                    <p>Get personalized tips and guidance throughout your job search</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Find Your Dream Job?</h2>
+                <p>Join thousands of job seekers who found their perfect match with SmartHire</p>
+                <a href="register.html" class="btn btn-primary btn-large">
+                    <i class="fas fa-rocket"></i> Get Started Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-briefcase"></i>
+                        <span>SmartHire</span>
+                    </div>
+                    <p>AI-powered job matching platform helping you find your perfect career opportunity.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="register.html">Register</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> support@smarthire.com</p>
+                    <p><i class="fas fa-phone"></i> +91 1234567890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SmartHire. Built with <i class="fas fa-heart"></i> for AIML Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
