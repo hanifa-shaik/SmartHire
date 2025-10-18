@@ -5,138 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - SmartHire</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-briefcase"></i>
-            <span>SmartHire</span>
-        </div>
+        <div class="logo">🎯 SmartHire</div>
         <ul class="nav-links">
-            <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="jobs.html"><i class="fas fa-briefcase"></i> Find Jobs</a></li>
-            <li><a href="php/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="jobs.html">Find Jobs</a></li>
+            <li><a href="php/logout.php">Logout</a></li>
         </ul>
-        <div class="hamburger">
-            <i class="fas fa-bars"></i>
-        </div>
     </nav>
 
     <div class="container">
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                <div>
-                    <h1 style="margin-bottom: 0.5rem;"><i class="fas fa-user-circle"></i> My Profile</h1>
-                    <p style="color: #6b7280;">Manage your profile and job preferences</p>
-                </div>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <button onclick="document.getElementById('resumeModal').style.display='flex'" class="btn btn-success">
-                        <i class="fas fa-upload"></i> Upload Resume
-                    </button>
-                    <a href="jobs.html" class="btn btn-primary">
-                        <i class="fas fa-search"></i> Browse Jobs
-                    </a>
-                </div>
+            <h1>My Profile</h1>
+            <div id="profileData">
+                <p>Loading...</p>
             </div>
 
-            <div id="profileData" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                <div style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #667eea;"></i>
-                    <p style="margin-top: 1rem; color: #6b7280;">Loading profile...</p>
-                </div>
-            </div>
-
-            <div id="skillsSection" style="margin-top: 2rem; display: none;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h3><i class="fas fa-code"></i> Your Skills</h3>
-                    <span id="skillCount" class="skill-tag" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">0 skills</span>
-                </div>
-                <div id="skillsList" style="display: flex; flex-wrap: wrap; gap: 0.75rem;"></div>
+            <div style="margin-top: 2rem;">
+                <a href="jobs.html" class="btn btn-primary">Browse Jobs</a>
+                <button onclick="showUploadForm()" class="btn btn-success">Upload Resume</button>
             </div>
         </div>
 
-        <!-- Quick Stats -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-            <div class="card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <i class="fas fa-briefcase" style="font-size: 2.5rem; opacity: 0.8;"></i>
-                    <div>
-                        <div style="font-size: 2rem; font-weight: 700;">0</div>
-                        <div style="opacity: 0.9;">Jobs Applied</div>
+        <div id="uploadModal" style="display:none;" class="modal">
+            <div class="modal-content">
+                <h2>Upload Your Resume</h2>
+                <form id="resumeForm">
+                    <div class="form-group">
+                        <input type="file" name="resume" accept=".pdf,.doc,.docx,.txt" required>
                     </div>
-                </div>
-            </div>
-            <div class="card" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <i class="fas fa-bullseye" style="font-size: 2.5rem; opacity: 0.8;"></i>
-                    <div>
-                        <div style="font-size: 2rem; font-weight: 700;" id="avgMatch">0%</div>
-                        <div style="opacity: 0.9;">Avg Match Rate</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <i class="fas fa-star" style="font-size: 2.5rem; opacity: 0.8;"></i>
-                    <div>
-                        <div style="font-size: 2rem; font-weight: 700;">Premium</div>
-                        <div style="opacity: 0.9;">Member Status</div>
-                    </div>
-                </div>
+                    <button type="submit" class="btn btn-success">Upload</button>
+                    <button type="button" onclick="hideUploadForm()" class="btn">Cancel</button>
+                </form>
+                <div id="uploadMessage"></div>
             </div>
         </div>
     </div>
 
-    <!-- Resume Upload Modal -->
-    <div id="resumeModal" class="modal">
-        <div class="modal-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 style="margin: 0;"><i class="fas fa-file-upload"></i> Upload Your Resume</h2>
-                <button onclick="closeResumeModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280;">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;">
-                <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-magic"></i> AI-Powered Skill Extraction</h4>
-                <p style="margin: 0; opacity: 0.9;">Our smart algorithm will automatically extract skills from your resume!</p>
-            </div>
-
-            <form id="resumeForm">
-                <div class="form-group">
-                    <label><i class="fas fa-file-pdf"></i> Choose Resume File</label>
-                    <input type="file" name="resume" accept=".pdf,.doc,.docx,.txt" class="form-control" required>
-                    <small style="color: #6b7280; display: block; margin-top: 0.5rem;">
-                        Supported formats: PDF, DOC, DOCX, TXT (Max 5MB)
-                    </small>
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button type="submit" class="btn btn-success" id="uploadBtn">
-                        <i class="fas fa-upload"></i> Upload & Extract Skills
-                    </button>
-                    <button type="button" onclick="closeResumeModal()" class="btn">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>
-                </div>
-            </form>
-            <div id="uploadMessage" style="margin-top: 1rem;"></div>
-        </div>
-    </div>
-
-    <script src="js/main.js"></script>
     <script>
-        let userData = null;
-
         async function loadProfile() {
             try {
                 const response = await fetch('php/get_profile.php');
                 const data = await response.json();
                 
                 if (data.success) {
-                    userData = data.user;
-                    displayProfile(userData);
+                    const user = data.user;
+                    document.getElementById('profileData').innerHTML = `
+                        <p><strong>Name:</strong> ${user.name}</p>
+                        <p><strong>Email:</strong> ${user.email}</p>
+                        <p><strong>Education:</strong> ${user.education || 'Not set'}</p>
+                        <p><strong>Experience:</strong> ${user.experience} years</p>
+                        <p><strong>Skills:</strong> ${user.skills ? user.skills.join(', ') : 'No skills added'}</p>
+                    `;
                 } else {
                     window.location.href = 'login.html';
                 }
@@ -145,72 +67,16 @@
             }
         }
 
-        function displayProfile(user) {
-            document.getElementById('profileData').innerHTML = `
-                <div class="card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; text-align: center;">
-                    <div style="width: 80px; height: 80px; background: white; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: #667eea;">
-                        ${user.name.charAt(0).toUpperCase()}
-                    </div>
-                    <h3 style="margin-bottom: 0.5rem;">${user.name}</h3>
-                    <p style="opacity: 0.9;"><i class="fas fa-envelope"></i> ${user.email}</p>
-                </div>
-                
-                <div class="card">
-                    <h4 style="margin-bottom: 1rem; color: #667eea;"><i class="fas fa-graduation-cap"></i> Education</h4>
-                    <p style="font-size: 1.1rem; font-weight: 600;">${user.education || 'Not specified'}</p>
-                </div>
-                
-                <div class="card">
-                    <h4 style="margin-bottom: 1rem; color: #667eea;"><i class="fas fa-briefcase"></i> Experience</h4>
-                    <p style="font-size: 1.1rem; font-weight: 600;">${user.experience} years</p>
-                </div>
-                
-                <div class="card">
-                    <h4 style="margin-bottom: 1rem; color: #667eea;"><i class="fas fa-map-marker-alt"></i> Location</h4>
-                    <p style="font-size: 1.1rem; font-weight: 600;">${user.preferred_location || 'Any location'}</p>
-                </div>
-            `;
-            
-            // Display skills
-            const skillsSection = document.getElementById('skillsSection');
-            const skillsList = document.getElementById('skillsList');
-            const skillCount = document.getElementById('skillCount');
-            
-            if (user.skills && user.skills.length > 0) {
-                skillsSection.style.display = 'block';
-                skillCount.textContent = `${user.skills.length} skills`;
-                
-                skillsList.innerHTML = user.skills.map((skill, index) => `
-                    <span class="skill-tag matched" style="animation: fadeInUp 0.5s ease ${index * 0.1}s both;">
-                        <i class="fas fa-check-circle"></i> ${skill}
-                    </span>
-                `).join('');
-            } else {
-                skillsSection.style.display = 'block';
-                skillsList.innerHTML = `
-                    <div style="width: 100%; text-align: center; padding: 2rem; background: #f9fafb; border-radius: 10px; border: 2px dashed #e5e7eb;">
-                        <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
-                        <p style="color: #6b7280; margin-bottom: 1rem;">No skills added yet</p>
-                        <button onclick="document.getElementById('resumeModal').style.display='flex'" class="btn btn-primary">
-                            <i class="fas fa-upload"></i> Upload Resume to Extract Skills
-                        </button>
-                    </div>
-                `;
-            }
+        function showUploadForm() {
+            document.getElementById('uploadModal').style.display = 'flex';
         }
 
-        function closeResumeModal() {
-            document.getElementById('resumeModal').style.display = 'none';
+        function hideUploadForm() {
+            document.getElementById('uploadModal').style.display = 'none';
         }
 
         document.getElementById('resumeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const btn = document.getElementById('uploadBtn');
-            const originalHtml = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-            
             const formData = new FormData(e.target);
             
             try {
@@ -220,59 +86,22 @@
                 });
                 const data = await response.json();
                 
-                const messageDiv = document.getElementById('uploadMessage');
                 if (data.success) {
-                    messageDiv.innerHTML = `
-                        <div class="alert-success">
-                            <i class="fas fa-check-circle"></i>
-                            <strong>Success!</strong> Resume uploaded and ${data.skills.length} skills extracted:
-                            <div style="margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                                ${data.skills.map(skill => `<span class="skill-tag matched">${skill}</span>`).join('')}
-                            </div>
-                        </div>
-                    `;
-                    
+                    document.getElementById('uploadMessage').innerHTML = 
+                        '<div class="alert-success">Resume uploaded! Skills: ' + data.skills.join(', ') + '</div>';
                     setTimeout(() => {
-                        closeResumeModal();
+                        hideUploadForm();
                         loadProfile();
-                        document.getElementById('resumeForm').reset();
-                        messageDiv.innerHTML = '';
-                    }, 3000);
+                    }, 2000);
                 } else {
-                    messageDiv.innerHTML = `
-                        <div class="alert-error">
-                            <i class="fas fa-exclamation-circle"></i> ${data.message}
-                        </div>
-                    `;
-                    btn.disabled = false;
-                    btn.innerHTML = originalHtml;
+                    document.getElementById('uploadMessage').innerHTML = 
+                        '<div class="alert-error">' + data.message + '</div>';
                 }
             } catch (error) {
-                document.getElementById('uploadMessage').innerHTML = `
-                    <div class="alert-error">
-                        <i class="fas fa-times-circle"></i> Upload failed. Please try again.
-                    </div>
-                `;
-                btn.disabled = false;
-                btn.innerHTML = originalHtml;
+                document.getElementById('uploadMessage').innerHTML = 
+                    '<div class="alert-error">Upload failed!</div>';
             }
         });
-
-        // Add fadeInUp animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-        `;
-        document.head.appendChild(style);
 
         loadProfile();
     </script>
