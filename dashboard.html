@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SmartHire</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🎯 SmartHire</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="jobs.html">Find Jobs</a></li>
+            <li><a href="php/logout.php">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h1>My Profile</h1>
+            <div id="profileData">
+                <p>Loading...</p>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <a href="jobs.html" class="btn btn-primary">Browse Jobs</a>
+                <button onclick="showUploadForm()" class="btn btn-success">Upload Resume</button>
+            </div>
+        </div>
+
+        <div id="uploadModal" style="display:none;" class="modal">
+            <div class="modal-content">
+                <h2>Upload Your Resume</h2>
+                <form id="resumeForm">
+                    <div class="form-group">
+                        <input type="file" name="resume" accept=".pdf,.doc,.docx,.txt" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Upload</button>
+                    <button type="button" onclick="hideUploadForm()" class="btn">Cancel</button>
+                </form>
+                <div id="uploadMessage"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadProfile() {
+            try {
+                const response = await fetch('php/get_profile.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const user = data.user;
+                    document.getElementById('profileData').innerHTML = `
+                        <p><strong>Name:</strong> ${user.name}</p>
+                        <p><strong>Email:</strong> ${user.email}</p>
+                        <p><strong>Education:</strong> ${user.education || 'Not set'}</p>
+                        <p><strong>Experience:</strong> ${user.experience} years</p>
+                        <p><strong>Skills:</strong> ${user.skills ? user.skills.join(', ') : 'No skills added'}</p>
+                    `;
+                } else {
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        function showUploadForm() {
+            document.getElementById('uploadModal').style.display = 'flex';
+        }
+
+        function hideUploadForm() {
+            document.getElementById('uploadModal').style.display = 'none';
+        }
+
+        document.getElementById('resumeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            try {
+                const response = await fetch('php/upload_resume.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('uploadMessage').innerHTML = 
+                        '<div class="alert-success">Resume uploaded! Skills: ' + data.skills.join(', ') + '</div>';
+                    setTimeout(() => {
+                        hideUploadForm();
+                        loadProfile();
+                    }, 2000);
+                } else {
+                    document.getElementById('uploadMessage').innerHTML = 
+                        '<div class="alert-error">' + data.message + '</div>';
+                }
+            } catch (error) {
+                document.getElementById('uploadMessage').innerHTML = 
+                    '<div class="alert-error">Upload failed!</div>';
+            }
+        });
+
+        loadProfile();
+    </script>
+</body>
+</html>

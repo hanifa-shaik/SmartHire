@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Jobs - SmartHire</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🎯 SmartHire</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="jobs.html">Find Jobs</a></li>
+            <li><a href="php/logout.php">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h1>Recommended Jobs</h1>
+            <p>Jobs ranked by how well they match your skills</p>
+            
+            <div id="jobsList" class="jobs-container">
+                <p>Loading jobs...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadJobs() {
+            try {
+                const response = await fetch('php/get_jobs.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayJobs(data.jobs);
+                } else {
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                document.getElementById('jobsList').innerHTML = '<p>Error loading jobs</p>';
+            }
+        }
+
+        function displayJobs(jobs) {
+            if (jobs.length === 0) {
+                document.getElementById('jobsList').innerHTML = '<p>No jobs found</p>';
+                return;
+            }
+
+            const html = jobs.map(job => `
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3>${job.title}</h3>
+                            <p>🏢 ${job.company}</p>
+                            <p>📍 ${job.location}</p>
+                        </div>
+                        <div class="match-badge">${job.match_percentage}% Match</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${job.match_percentage}%"></div>
+                    </div>
+                    <p>${job.description}</p>
+                    <p><strong>💰 ${job.salary}</strong></p>
+                    <div class="skills-container">
+                        ${job.required_skills.map(skill => 
+                            `<span class="skill-tag ${job.matched_skills.includes(skill.toLowerCase()) ? 'matched' : ''}">${skill}</span>`
+                        ).join('')}
+                    </div>
+                    <button onclick="applyJob(${job.id}, ${job.match_percentage})" class="btn btn-primary">Apply Now</button>
+                </div>
+            `).join('');
+
+            document.getElementById('jobsList').innerHTML = html;
+        }
+
+        async function applyJob(jobId, matchPercentage) {
+            if (!confirm('Apply for this job?')) return;
+            
+            const formData = new FormData();
+            formData.append('job_id', jobId);
+            formData.append('match_percentage', matchPercentage);
+            
+            try {
+                const response = await fetch('php/apply_job.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                alert(data.message);
+            } catch (error) {
+                alert('Error applying to job');
+            }
+        }
+
+        loadJobs();
+    </script>
+</body>
+</html>
