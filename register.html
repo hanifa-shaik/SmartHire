@@ -5,41 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - SmartHire</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">🎯 SmartHire</div>
+        <div class="logo">
+            <i class="fas fa-briefcase"></i>
+            <span>SmartHire</span>
+        </div>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="login.html">Login</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
         </ul>
     </nav>
 
     <div class="container">
         <div class="card auth-card">
-            <h2>Create Your Account</h2>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea, #764ba2); margin: 0 auto 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-user-plus" style="font-size: 2rem; color: white;"></i>
+                </div>
+                <h2>Create Your Account</h2>
+                <p style="color: #6b7280;">Join thousands of job seekers</p>
+            </div>
+            
             <div id="message"></div>
             
             <form id="registerForm">
                 <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <label><i class="fas fa-user"></i> Full Name *</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter your full name" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required>
+                    <label><i class="fas fa-envelope"></i> Email Address *</label>
+                    <input type="email" name="email" class="form-control" placeholder="your.email@example.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Password *</label>
-                    <input type="password" name="password" class="form-control" required>
+                    <label><i class="fas fa-lock"></i> Password *</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Minimum 6 characters" required minlength="6">
+                    <div id="passwordStrength" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
                 </div>
 
                 <div class="form-group">
-                    <label>Education</label>
+                    <label><i class="fas fa-graduation-cap"></i> Education Level</label>
                     <select name="education" class="form-control">
-                        <option value="">Select</option>
+                        <option value="">Select your education</option>
+                        <option value="High School">High School</option>
                         <option value="Bachelor's">Bachelor's Degree</option>
                         <option value="Master's">Master's Degree</option>
                         <option value="PhD">PhD</option>
@@ -47,32 +61,86 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Experience (years)</label>
-                    <input type="number" name="experience" class="form-control" value="0" min="0">
+                    <label><i class="fas fa-briefcase"></i> Years of Experience</label>
+                    <input type="number" name="experience" class="form-control" value="0" min="0" max="50" placeholder="0">
                 </div>
 
                 <div class="form-group">
-                    <label>Preferred Location</label>
-                    <input type="text" name="location" class="form-control" placeholder="e.g., Bangalore">
+                    <label><i class="fas fa-map-marker-alt"></i> Preferred Location</label>
+                    <input type="text" name="location" class="form-control" placeholder="e.g., Bangalore, Mumbai">
                 </div>
 
                 <div class="form-group">
-                    <label>Your Skills (comma separated)</label>
-                    <input type="text" name="skills" class="form-control" placeholder="e.g., Python, Java, SQL">
+                    <label><i class="fas fa-code"></i> Your Skills (comma separated)</label>
+                    <input type="text" name="skills" id="skillsInput" class="form-control" placeholder="e.g., Python, JavaScript, SQL">
+                    <small style="color: #6b7280; display: block; margin-top: 0.5rem;">
+                        <i class="fas fa-info-circle"></i> You can also upload your resume later to extract skills automatically
+                    </small>
+                    <div id="skillsPreview" style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <button type="submit" class="btn btn-primary btn-block" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
             </form>
 
-            <p style="text-align: center; margin-top: 1rem;">
-                Already have an account? <a href="login.html">Login here</a>
+            <p style="text-align: center; margin-top: 1.5rem; color: #6b7280;">
+                Already have an account? 
+                <a href="login.html" style="color: #667eea; font-weight: 600; text-decoration: none;">
+                    <i class="fas fa-sign-in-alt"></i> Login here
+                </a>
             </p>
         </div>
     </div>
 
+    <script src="js/main.js"></script>
     <script>
+        // Password Strength Checker
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthDiv = document.getElementById('passwordStrength');
+            
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            const strengthText = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+            const strengthColor = ['#ef4444', '#f59e0b', '#eab308', '#84cc16', '#10b981', '#059669'];
+            
+            strengthDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="flex: 1; height: 5px; background: #e5e7eb; border-radius: 5px; overflow: hidden;">
+                        <div style="width: ${(strength / 5) * 100}%; height: 100%; background: ${strengthColor[strength]}; transition: all 0.3s;"></div>
+                    </div>
+                    <span style="color: ${strengthColor[strength]}; font-weight: 600;">${strengthText[strength]}</span>
+                </div>
+            `;
+        });
+        
+        // Skills Preview
+        document.getElementById('skillsInput').addEventListener('input', function(e) {
+            const skills = e.target.value.split(',').map(s => s.trim()).filter(s => s);
+            const preview = document.getElementById('skillsPreview');
+            
+            preview.innerHTML = skills.map(skill => `
+                <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                    <i class="fas fa-check"></i> ${skill}
+                </span>
+            `).join('');
+        });
+        
+        // Form Submission
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            const btn = document.getElementById('registerBtn');
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            
             const formData = new FormData(e.target);
             
             try {
@@ -82,17 +150,33 @@
                 });
                 const data = await response.json();
                 
+                const messageDiv = document.getElementById('message');
                 if (data.success) {
-                    document.getElementById('message').innerHTML = 
-                        '<div class="alert-success">Registration successful! Redirecting...</div>';
+                    messageDiv.innerHTML = `
+                        <div class="alert-success" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-check-circle"></i>
+                            <span>${data.message} Redirecting to login...</span>
+                        </div>
+                    `;
                     setTimeout(() => window.location.href = 'login.html', 2000);
                 } else {
-                    document.getElementById('message').innerHTML = 
-                        '<div class="alert-error">' + data.message + '</div>';
+                    messageDiv.innerHTML = `
+                        <div class="alert-error" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>${data.message}</span>
+                        </div>
+                    `;
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
                 }
             } catch (error) {
-                document.getElementById('message').innerHTML = 
-                    '<div class="alert-error">Error occurred!</div>';
+                document.getElementById('message').innerHTML = `
+                    <div class="alert-error">
+                        <i class="fas fa-times-circle"></i> An error occurred. Please try again.
+                    </div>
+                `;
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
             }
         });
     </script>
